@@ -25,7 +25,10 @@ SECRET_KEY = 'django-insecure-fot_+$d8@ec$khk96wt^tww&&_k0w&sr75(fx0#3!(vop&&3u$
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+# Empty by default. 'localhost' + 'testserver' cover local dev and Django's
+# test client. Add your LAN IP here if you want to open the dev server on
+# your phone / another machine.
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'testserver']
 
 
 # Application definition
