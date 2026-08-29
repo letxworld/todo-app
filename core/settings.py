@@ -121,6 +121,13 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+# Auth redirects. Django's @login_required and the built-in auth views use
+# these; without them they default to /accounts/login/ and /accounts/profile/,
+# which don't exist in this project (our routes are login/ and dashboard/).
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'dashboard'
+LOGOUT_REDIRECT_URL = 'login'
+
 
 # Email
 # https://docs.djangoproject.com/en/6.1/topics/email/#topic-email-configuration
