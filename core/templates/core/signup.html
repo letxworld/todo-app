@@ -1,0 +1,22 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Sign up · Bug Bounty Tracker{% endblock %}
+
+{% block content %}
+<div class="card" style="max-width:420px;margin:2rem auto;">
+    <h2>Create your account</h2>
+    <form method="post">
+        {% csrf_token %}
+        {% for field in form %}
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }}
+            {% if field.help_text %}<p class="muted">{{ field.help_text }}</p>{% endif %}
+            {% for error in field.errors %}<p class="msg error">{{ error }}</p>{% endfor %}
+        {% endfor %}
+        <p style="margin-top:1rem;">
+            <button class="btn" type="submit">Sign up</button>
+        </p>
+    </form>
+    <p class="muted">Already have an account? <a href="{% url 'login' %}">Log in</a></p>
+</div>
+{% endblock %}

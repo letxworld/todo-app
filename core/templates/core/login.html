@@ -1,0 +1,24 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Login · Bug Bounty Tracker{% endblock %}
+
+{% block content %}
+<div class="card" style="max-width:420px;margin:2rem auto;">
+    <h2>Log in</h2>
+    {% if form.errors %}
+        <div class="msg error">Invalid username or password.</div>
+    {% endif %}
+    <form method="post" action="{% url 'login' %}">
+        {% csrf_token %}
+        <label for="id_username">Username</label>
+        {{ form.username }}
+        <label for="id_password">Password</label>
+        {{ form.password }}
+        <input type="hidden" name="next" value="{{ next }}">
+        <p style="margin-top:1rem;">
+            <button class="btn" type="submit">Log in</button>
+        </p>
+    </form>
+    <p class="muted">No account? <a href="{% url 'signup' %}">Sign up</a></p>
+</div>
+{% endblock %}
