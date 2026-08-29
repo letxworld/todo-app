@@ -1,0 +1,29 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Dashboard · Bug Bounty Tracker{% endblock %}
+
+{% block content %}
+<div class="row" style="justify-content:space-between;align-items:center;">
+    <h1 style="margin:.5rem 0;">Your Targets</h1>
+    <a class="btn" href="{% url 'target_create' %}">+ New target</a>
+</div>
+
+{% if targets %}
+    {% for target in targets %}
+        <div class="card">
+            <div class="row" style="justify-content:space-between;">
+                <h3><a href="{% url 'target_detail' target.pk %}">{{ target.name }}</a></h3>
+                <span class="tag scope">{{ target.platform }}</span>
+            </div>
+            <p class="muted">
+                {{ target.assets.count }} asset{{ target.assets.count|pluralize }} ·
+                {% if target.program_handle %}handle: {{ target.program_handle }}{% else %}no handle set{% endif %}
+            </p>
+        </div>
+    {% endfor %}
+{% else %}
+    <div class="card">
+        <p class="muted">No targets yet. Add your first bug bounty program to get started.</p>
+    </div>
+{% endif %}
+{% endblock %}

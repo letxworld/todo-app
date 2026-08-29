@@ -1,0 +1,39 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Findings · Bug Bounty Tracker{% endblock %}
+
+{% block content %}
+<h1 style="margin:.5rem 0;">Findings log</h1>
+<p class="muted">All completed / found tasks across your targets — your personal history of results.</p>
+
+{% if tasks %}
+    <div class="card">
+    <table>
+        <tr><th>Task</th><th>Asset</th><th>Target</th><th>Status</th><th>Completed</th></tr>
+        {% for task in tasks %}
+            <tr>
+                <td>{{ task.title }}</td>
+                <td><a href="{% url 'asset_detail' task.asset.pk %}">{{ task.asset.domain_or_url }}</a></td>
+                <td>{{ task.asset.target.name }}</td>
+                <td>{% if task.status == 'found' %}<span class="tag found">Found</span>{% else %}<span class="tag">No vuln</span>{% endif %}</td>
+                <td class="muted">{% if task.date_completed %}{{ task.date_completed|date:"Y-m-d" }}{% else %}—{% endif %}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    {% if tasks %}
+        <div style="margin-top:1rem;">
+            {% for task in tasks %}
+                {% if task.note %}
+                    <details style="margin:.4rem 0;">
+                        <summary style="cursor:pointer;">{{ task.title }} — {{ task.asset.domain_or_url }}</summary>
+                        <pre style="white-space:pre-wrap;color:var(--muted);">{{ task.note }}</pre>
+                    </details>
+                {% endif %}
+            {% endfor %}
+        </div>
+    {% endif %}
+    </div>
+{% else %}
+    <div class="card"><p class="muted">No findings yet. Mark a task as "Found" or "No vuln" and it shows up here.</p></div>
+{% endif %}
+{% endblock %}

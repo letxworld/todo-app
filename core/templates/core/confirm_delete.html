@@ -1,0 +1,19 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Confirm delete · Bug Bounty Tracker{% endblock %}
+
+{% block content %}
+<div class="card" style="max-width:480px;">
+    <h2>Delete {{ object }}?</h2>
+    <p class="muted">This cannot be undone. Child records will be removed too.</p>
+    <form method="post">
+        {% csrf_token %}
+        <button class="btn danger" type="submit">Yes, delete</button>
+        {% if back_pk %}
+            <a class="btn small" href="{% url back_url back_pk %}">Cancel</a>
+        {% else %}
+            <a class="btn small" href="{% url back_url %}">Cancel</a>
+        {% endif %}
+    </form>
+</div>
+{% endblock %}

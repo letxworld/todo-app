@@ -1,0 +1,45 @@
+{% extends 'core/base.html' %}
+
+{% block title %}{{ asset.domain_or_url }} · Bug Bounty Tracker{% endblock %}
+
+{% block content %}
+<div class="row" style="justify-content:space-between;align-items:center;">
+    <h1 style="margin:.5rem 0;">
+        {{ asset.domain_or_url }}
+        <span class="tag">{{ asset.get_asset_type_display }}</span>
+        <span class="tag">{{ asset.get_status_display }}</span>
+        {% if asset.in_scope %}<span class="tag scope">in scope</span>{% else %}<span class="tag">out of scope</span>{% endif %}
+    </h1>
+    <div class="row">
+        <a class="btn small" href="{% url 'asset_edit' asset.pk %}">Edit</a>
+        <a class="btn small danger" href="{% url 'asset_delete' asset.pk %}">Delete</a>
+    </div>
+</div>
+<p class="muted"><a href="{% url 'target_detail' asset.target.pk %}">&larr; {{ asset.target.name }}</a></p>
+
+<div class="row" style="justify-content:space-between;align-items:center;">
+    <h2 style="margin:1rem 0 .5rem;">Tasks ({{ asset.tasks.count }})</h2>
+    <div class="row">
+        <a class="btn small" href="{% url 'apply_checklist' asset.pk %}">Apply checklist</a>
+        <a class="btn small" href="{% url 'task_create' asset.pk %}">+ Add task</a>
+    </div>
+</div>
+
+{% if asset.tasks.all %}
+    <div class="card">
+    <table>
+        <tr><th>Task</th><th>Status</th><th>Deadline</th><th></th></tr>
+        {% for task in asset.tasks.all %}
+            <tr>
+                <td><a href="{% url 'task_edit' task.pk %}">{{ task.title }}</a></td>
+                <td>{% if task.status == 'found' %}<span class="tag found">Found</span>{% else %}<span class="tag">{{ task.get_status_display }}</span>{% endif %}</td>
+                <td class="muted">{% if task.deadline %}{{ task.deadline|date:"Y-m-d H:i" }}{% else %}—{% endif %}</td>
+                <td><a class="btn small" href="{% url 'task_edit' task.pk %}">Edit</a></td>
+            </tr>
+        {% endfor %}
+    </table>
+    </div>
+{% else %}
+    <div class="card"><p class="muted">No tasks yet. Apply a vuln checklist or add one manually.</p></div>
+{% endif %}
+{% endblock %}

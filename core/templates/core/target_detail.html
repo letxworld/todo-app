@@ -1,0 +1,41 @@
+{% extends 'core/base.html' %}
+
+{% block title %}{{ target.name }} · Bug Bounty Tracker{% endblock %}
+
+{% block content %}
+<div class="row" style="justify-content:space-between;align-items:center;">
+    <h1 style="margin:.5rem 0;">{{ target.name }} <span class="tag scope">{{ target.platform }}</span></h1>
+    <div class="row">
+        <a class="btn small" href="{% url 'target_edit' target.pk %}">Edit</a>
+        <a class="btn small danger" href="{% url 'target_delete' target.pk %}">Delete</a>
+    </div>
+</div>
+<p class="muted">
+    {% if target.program_handle %}Program handle: {{ target.program_handle }}{% else %}No program handle set{% endif %}
+    · Created {{ target.created_at|date:"Y-m-d" }}
+</p>
+
+<div class="row" style="justify-content:space-between;align-items:center;">
+    <h2 style="margin:1rem 0 .5rem;">Assets ({{ target.assets.count }})</h2>
+    <a class="btn small" href="{% url 'asset_create' target.pk %}">+ Add asset</a>
+</div>
+
+{% if target.assets.all %}
+    <div class="card">
+    <table>
+        <tr><th>Domain / URL</th><th>Type</th><th>Status</th><th>Scope</th><th></th></tr>
+        {% for asset in target.assets.all %}
+            <tr>
+                <td><a href="{% url 'asset_detail' asset.pk %}">{{ asset.domain_or_url }}</a></td>
+                <td><span class="tag">{{ asset.get_asset_type_display }}</span></td>
+                <td><span class="tag">{{ asset.get_status_display }}</span></td>
+                <td>{% if asset.in_scope %}<span class="tag scope">in scope</span>{% else %}<span class="tag">out</span>{% endif %}</td>
+                <td><a class="btn small" href="{% url 'asset_detail' asset.pk %}">Open</a></td>
+            </tr>
+        {% endfor %}
+    </table>
+    </div>
+{% else %}
+    <div class="card"><p class="muted">No assets yet. Add one, or import scope later.</p></div>
+{% endif %}
+{% endblock %}

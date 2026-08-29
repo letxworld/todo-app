@@ -1,0 +1,21 @@
+{% extends 'core/base.html' %}
+
+{% block title %}{% if mode == 'edit' %}Edit asset{% else %}New asset{% endif %} · Bug Bounty Tracker{% endblock %}
+
+{% block content %}
+<div class="card" style="max-width:520px;">
+    <h2>{% if mode == 'edit' %}Edit {{ asset.domain_or_url }}{% else %}New asset in {{ target.name }}{% endif %}</h2>
+    <form method="post">
+        {% csrf_token %}
+        {% for field in form %}
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }}
+            {% for error in field.errors %}<p class="msg error">{{ error }}</p>{% endfor %}
+        {% endfor %}
+        <p style="margin-top:1rem;">
+            <button class="btn" type="submit">Save</button>
+            {% if asset %}<a class="btn small" href="{% url 'asset_detail' asset.pk %}">Cancel</a>{% endif %}
+        </p>
+    </form>
+</div>
+{% endblock %}

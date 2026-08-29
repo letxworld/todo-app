@@ -1,0 +1,25 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Apply checklist · {{ asset.domain_or_url }}{% endblock %}
+
+{% block content %}
+<div class="card" style="max-width:560px;">
+    <h2>Apply vulnerability checklist to {{ asset.domain_or_url }}</h2>
+    <p class="muted">Select the checks you want to add as tasks. Each becomes one Task on this asset.</p>
+    <form method="post">
+        {% csrf_token %}
+        {% for tmpl in templates %}
+            <p style="margin:.4rem 0;">
+                <label style="display:inline;color:var(--text);">
+                    <input type="checkbox" name="checklist" value="{{ tmpl.pk }}" checked>
+                    <strong>{{ tmpl.title }}</strong> — {{ tmpl.description }}
+                </label>
+            </p>
+        {% endfor %}
+        <p style="margin-top:1rem;">
+            <button class="btn" type="submit">Create tasks</button>
+            <a class="btn small" href="{% url 'asset_detail' asset.pk %}">Cancel</a>
+        </p>
+    </form>
+</div>
+{% endblock %}
