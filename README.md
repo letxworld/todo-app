@@ -4,6 +4,8 @@ A workflow tracker built for bug bounty hunters — tracks programs (Targets),
 their in-scope assets (Assets), and testing tasks against each asset. Plain
 Django + Templates, no React (by design).
 
+Note : it is not complete 
+
 ## Stack
 - Django 6.1, SQLite, Django's built-in auth, Django admin for raw data work.
 
