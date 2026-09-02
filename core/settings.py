@@ -39,9 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles',   
-    'core'
-
+    'django.contrib.staticfiles',
+    'core',
 ]
 
 MIDDLEWARE = [
@@ -66,6 +65,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'core.context_processors.upcoming_deadlines',
             ],
         },
     },
@@ -137,3 +137,11 @@ MAILERS = {
         'BACKEND': 'django.core.mail.backends.console.EmailBackend',
     },
 }
+
+
+# Deadline notifications
+# Set DEADLINE_NOTIFICATION_BACKEND to 'core.notifications.mail_notification'
+# and configure EMAIL settings to enable real email alerts instead of console
+# logging.
+DEADLINE_NOTIFY_WINDOW_HOURS = 48
+DEADLINE_NOTIFY_COOLDOWN_HOURS = 6
